@@ -1,4 +1,4 @@
-# OatBiparentalPrediction_FattyAcids
+# Genomic prediction of within and among biparental families of oat
 
 This repository contains code and information associated with "Genomic prediction of seed nutritional traits in biparental families of oat (Avena sativa)". 
 
