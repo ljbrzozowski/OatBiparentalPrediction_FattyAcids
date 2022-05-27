@@ -181,4 +181,4 @@ corRes$r <- as.numeric(corRes$r)
 corRes <- corRes[corRes$TrainingPop == corRes$FocalFam,] ## training pop for specific family has same name as the focal fam
 #write.csv(corRes, "./PathToPredictionAccResults.csv", row.names = F)
 
-
+#####################
