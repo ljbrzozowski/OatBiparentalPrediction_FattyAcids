@@ -15,13 +15,13 @@ library(rrBLUP)
 ### Read in phenotypes + genotypes from families 
 
 #family_phenotypes <- read.csv("./PathToPhenotypeFile.csv")
-#the first column of this file is "Line" which is the unique genotype identifier
-#the second column of this file is "Family" which groups genotypes into families 
-# *family name **MUST** be included in genotype identifer and can be retreived through e.g., stringr or grepl; grepl used in this code
-#the third through nth column are names of phenotypes to predict
+##the first column of this file is "Line" which is the unique genotype identifier
+##the second column of this file is "Family" which groups genotypes into families 
+## *family name **MUST** be included in genotype identifer and can be retreived through e.g., stringr or grepl; grepl used in this code
+##the third through nth column are names of phenotypes to predict
 
 #family_genotypes <-  readRDS("./PathToGenotypeFile.RDS")
-#rownames are Lines (above); columns are marker names
+##rownames are Lines (above); columns are marker names
 
 ### Ensure that same individuals in phenotypes + genotypes from families 
 
@@ -32,7 +32,7 @@ library(rrBLUP)
 
 ### get vector of phenotype and family names
 
-#phenos <- colnames(family_phenotypes)[2:ncol(family_phenotypes)]
+#phenos <- colnames(family_phenotypes)[3:ncol(family_phenotypes)]
 #cat("\n There are", length(phenos), "phenotypes")
 
 #fams  <- unique(family_phenotypes$Family)

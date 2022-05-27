@@ -17,40 +17,30 @@ library(rrBLUP)
 #################
 
 ### Read in phenotypes + genotypes from families 
-
 #family_phenotypes <- read.csv("./PathToPhenotypeFile.csv")
-#the first column of this file is "Line" which is the unique genotype identifier
-#the second column of this file is "Family" which groups genotypes into families 
-# *family name **MUST** be included in genotype identifer and can be retreived through e.g., stringr or grepl; grepl used in this code
-#the third through nth column are names of phenotypes to predict
-
+##the first column of this file is "Line" which is the unique genotype identifier
+##the second column of this file is "Family" which groups genotypes into families 
+## *family name **MUST** be included in genotype identifer and can be retreived through e.g., stringr or grepl; grepl used in this code
+##the third through nth column are names of phenotypes to predict
 #family_genotypes <-  readRDS("./PathToGenotypeFile.RDS")
-#rownames are Lines (above); columns are marker names
+##rownames are Lines (above); columns are marker names
 
-### Ensure that same individuals in phenotypes + genotypes from families 
-
-#family_phenotypes<- family_phenotypes[which(family_phenotypes$Line %in% rownames(family_genotypes)),]
-#family_genotypes<- family_genotypes[which(rownames(family_genotypes) %in% family_phenotypes$Line),]
-#cat("\n Family phenotype data loaded and formatted with dimensions", dim(family_phenotypes) )
-#cat("\n Family genotype data loaded and formatted with dimensions", dim(family_genotypes) )
 
 ### get vector of phenotype and family names
-
-#phenos <- colnames(family_phenotypes)[2:ncol(family_phenotypes)]
+#phenos <- colnames(family_phenotypes)[3:ncol(family_phenotypes)]
 #cat("\n There are", length(phenos), "phenotypes")
-
 #fams  <- unique(family_phenotypes$Family)
 #cat("\n There are", length(fams), "families")
 
 
 ### Read in phenotypes + genotypes from panels
 #panel_phenotypes <- read.csv("./PathToPhenotypeFile.RDS")
-#list of phenotype files where named by panel
-#rownames are Lines (above); columns are phenotypes
+##list of phenotype files where named by panel
+##rownames are Lines (above); columns are phenotypes
 
 #panel_genotypes <-  readRDS("./PathToGenotypeFile.RDS")
-#list of genotype files where named by panel
-#rownames are Lines (above); columns are marker names
+##list of genotype files where named by panel
+##rownames are Lines (above); columns are marker names
 
 ###################
 
@@ -62,9 +52,9 @@ library(rrBLUP)
 #########################
 
 #panels
-X_Panel1 <- panel_genotypes$Panel1[,which(colnames(panel_genotypes$Panel1) %in% allMrkrs)]
+X_Panel1 <- panel_genotypes$Panel1
 M_Panel1 <- scale(X_Panel1)
-X_Panel2 <- panel_genotypes$Panel2[,which(colnames(panel_genotypes$Panel2) %in% allMrkrs)]
+X_Panel2 <- panel_genotypes$Panel2
 M_Panel2 <- scale(X_Panel2)
 
 PanelMrkrMatrices <- list(X = list(DP = X_Panel1, EP=X_Panel2),
@@ -77,12 +67,10 @@ cat("\n saved panel marker matrices")
 
 
 #families
-all_fam_gbs <- all_fam_gbs[,which(colnames(all_fam_gbs) %in% allMrkrs)]
-
 validFam_X <- list()
 
 for (i in 1:length(fams)) {
-  #marker matrix for single family to use in validation
+  ##marker matrix for single family to use in validation
   ## this is focal family
   focal_fam_temp <- family_genotypes[which(grepl(pattern = as.character(fams[i]), x = rownames(family_genotypes))),
                                      which(colnames(family_genotypes) %in% colnames(fam_tp_temp_M))]
@@ -117,7 +105,6 @@ mkrEffs <- list(GBLUP = list(), BB = list())
 nIter <- 20000
 burnIn <-5000
 
-#panels
 for (j in 1:length(phenos)) { #for each penotype
   for(i in 1:length(PanelMrkrMatrices$X)) { #for each germplasm panel
     
@@ -152,7 +139,7 @@ for (j in 1:length(phenos)) { #for each penotype
 ## Part 5: Correlation between predicted and observed
 #################
 
-## predict family
+## predict within family
 corRes <- as.data.frame(matrix(ncol=5)) ; colnames(corRes) <- c("FocalFam", "Model", "TrainingPop", "pheno", "r")
 
 
