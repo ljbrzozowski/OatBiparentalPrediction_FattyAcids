@@ -49,7 +49,8 @@ TPFam_X <- list()
 TPFam_M <- list()
 
 for (i in 1:length(fams)) { #cycle through families
-  # get M, G matrices for training populations to estimated snp effect for rest of families
+  # get M, G matrices for training populations to estimate snp effect from rest of families
+  ## note, that for focal family, their training population will have the same name
   fam_tp_temp <- family_genotypes[-c(which(grepl(pattern = as.character(fams[i]), x = rownames(family_genotypes)))),]
   fam_tp_temp <- fam_tp_temp[,-c(which(apply(fam_tp_temp,FUN =  var, 2) == 0))] #remove zero var so can scale
   fam_tp_temp_M <- scale(fam_tp_temp) #when column has zero variance, this fails
@@ -58,6 +59,7 @@ for (i in 1:length(fams)) { #cycle through families
   TPFam_M[[as.character(fams[i])]] <- fam_tp_temp_M
   
   #marker matrix for single family to use in validation
+  ## this is focal family
   focal_fam_temp <- family_genotypes[which(grepl(pattern = as.character(fams[i]), x = rownames(family_genotypes))),
                                 which(colnames(family_genotypes) %in% colnames(fam_tp_temp_M))]
   validFam_X[[as.character(fams[i])]] <- focal_fam_temp
